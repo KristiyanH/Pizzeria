@@ -27,7 +27,6 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
-                              new PizzasSeeder(),
                           };
 
             foreach (var seeder in seeders)
