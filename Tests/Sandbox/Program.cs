@@ -16,7 +16,6 @@
     using Pizzeria.Data.Models;
     using Pizzeria.Data.Repositories;
     using Pizzeria.Data.Seeding;
-    using Pizzeria.Services.Data;
     using Pizzeria.Services.Messaging;
 
     public static class Program
@@ -50,9 +49,6 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
-
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
         }
@@ -79,7 +75,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }
