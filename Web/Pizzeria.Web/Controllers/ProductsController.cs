@@ -31,7 +31,7 @@
 
             await this.productService.CreateAsync(model);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("/");
         }
     }
 }
