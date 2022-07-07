@@ -1,0 +1,14 @@
+﻿@using Pizzeria.Web.ViewModels.Products
+@model List<AllProductsViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="@item.ImageUrl" class="card-img-top" alt="img">
+        <div class="card-body">
+            <h5 class="card-title">@item.Name</h5>
+            <p class="card-text">@item.Description</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+}

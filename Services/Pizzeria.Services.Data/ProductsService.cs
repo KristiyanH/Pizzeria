@@ -1,5 +1,7 @@
 ﻿namespace Pizzeria.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -16,6 +18,13 @@
         {
             this.productsRepository = productsRepository;
             this.mapper = mapper;
+        }
+
+        public List<AllProductsViewModel> All()
+        {
+            var products = this.mapper.Map<List<AllProductsViewModel>>(this.productsRepository.All().ToList());
+
+            return products;
         }
 
         public async Task CreateAsync(CreateProductViewModel model)

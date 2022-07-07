@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Web
 {
+    using System.Collections.Generic;
     using System.Reflection;
 
     using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,7 @@
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<CreateProductViewModel, Product>();
+                cfg.CreateMap<Product, AllProductsViewModel>();
             });
 
             services.AddDbContext<ApplicationDbContext>(

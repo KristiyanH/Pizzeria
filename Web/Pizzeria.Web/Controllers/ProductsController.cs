@@ -1,11 +1,10 @@
 ﻿namespace Pizzeria.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
-    using Pizzeria.Data.Common.Repositories;
-    using Pizzeria.Data.Models;
     using Pizzeria.Services.Data;
     using Pizzeria.Web.ViewModels.Products;
-    using System.Threading.Tasks;
 
     public class ProductsController : BaseController
     {
@@ -32,6 +31,12 @@
             await this.productService.CreateAsync(model);
 
             return this.RedirectToAction("/");
+        }
+
+        public IActionResult All()
+        {
+            var products = this.productService.All();
+            return this.View(products);
         }
     }
 }
