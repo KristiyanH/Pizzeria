@@ -277,7 +277,7 @@ namespace Pizzeria.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Pizzeria.Data.Models.Product", b =>
@@ -334,7 +334,7 @@ namespace Pizzeria.Data.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Pizzeria.Data.Models.Size", b =>
@@ -364,7 +364,7 @@ namespace Pizzeria.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

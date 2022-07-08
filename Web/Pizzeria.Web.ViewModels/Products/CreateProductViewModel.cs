@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Web.ViewModels.Products
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Pizzeria.Data.Models;
@@ -27,6 +28,10 @@
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        public IEnumerable<ProductCategoryViewModel> Categories { get; set; }
+
         public int? SizeId { get; set; }
+
+        public IEnumerable<ProductSizeViewModel> Sizes { get; set; }
     }
 }
