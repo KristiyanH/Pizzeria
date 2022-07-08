@@ -12,5 +12,9 @@
         public List<AllProductsViewModel> All();
 
         public Task Remove(int id);
+
+        public IEnumerable<ProductCategoryViewModel> GetProductCategories();
+
+        public IEnumerable<ProductSizeViewModel> GetProductSizes();
     }
 }
