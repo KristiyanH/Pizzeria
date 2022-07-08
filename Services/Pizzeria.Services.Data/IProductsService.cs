@@ -10,5 +10,7 @@
         public Task CreateAsync(CreateProductViewModel model);
 
         public List<AllProductsViewModel> All();
+
+        public Task Remove(int id);
     }
 }

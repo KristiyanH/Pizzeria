@@ -2,13 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AllProductsViewModel
+    public class EditProductViewModel
     {
-        public int Id { get; set; }
-
-        [Required]
-        public string Name { get; init; }
-
         [Required]
         [Url]
         [Display(Name = "Image URL")]

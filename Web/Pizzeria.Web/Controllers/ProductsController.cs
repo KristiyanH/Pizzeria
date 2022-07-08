@@ -30,13 +30,20 @@
 
             await this.productService.CreateAsync(model);
 
-            return this.RedirectToAction("/");
+            return this.RedirectToAction("All");
         }
 
         public IActionResult All()
         {
             var products = this.productService.All();
             return this.View(products);
+        }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            await this.productService.Remove(id);
+
+            return this.RedirectToAction("All");
         }
     }
 }

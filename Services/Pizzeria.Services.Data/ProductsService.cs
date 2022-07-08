@@ -33,5 +33,12 @@
             await this.productsRepository.AddAsync(product);
             await this.productsRepository.SaveChangesAsync();
         }
+
+        public async Task Remove(int id)
+        {
+            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+            this.productsRepository.Delete(product);
+            await this.productsRepository.SaveChangesAsync();
+        }
     }
 }

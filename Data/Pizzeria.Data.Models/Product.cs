@@ -1,19 +1,32 @@
 ﻿namespace Pizzeria.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Pizzeria.Data.Common.Models;
+
+    using static Pizzeria.Data.Common.DataConstants.Product;
 
     public class Product : BaseDeletableModel<int>
     {
-        public string Name { get; init; }
+        [Required]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
+        public string Name { get; set; }
 
-        public string ImageUrl { get; init; }
+        [Required]
+        public string ImageUrl { get; set; }
 
-        public string Description { get; init; }
+        [Required]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
+        public string Description { get; set; }
 
+        [Required]
+        [Range(MinWeight, MaxWeight)]
         public int Weight { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
