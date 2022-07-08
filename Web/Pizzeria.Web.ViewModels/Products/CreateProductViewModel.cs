@@ -32,6 +32,6 @@
 
         public int? SizeId { get; set; }
 
-        public IEnumerable<ProductSizeViewModel> Sizes { get; set; }
+        public IEnumerable<ProductSizeViewModel>? Sizes { get; set; }
     }
 }

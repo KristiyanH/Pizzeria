@@ -28,9 +28,9 @@
         <span asp-validation-for="Weight" class="text-danger"></span>
     </div>
     <div class="col-md-4">
-        <label asp-for="SizeId" class="form-label">State</label>
+        <label asp-for="SizeId" class="form-label">Select Size</label>
         <select asp-for="SizeId" class="form-select">
-            <option selected>Select Size</option>
+            <option selected value="@null">N/A</option>
             @foreach(var size in Model.Sizes)
             {
                 <option value="@size.Id">@size.Name</option>
@@ -38,9 +38,8 @@
         </select>
     </div>
     <div class="col-md-4">
-        <label asp-for="CategoryId" class="form-label">State</label>
+        <label asp-for="CategoryId" class="form-label">Select Category</label>
         <select asp-for="CategoryId" class="form-select">
-            <option selected>Select Category</option>
             @foreach(var category in Model.Categories)
             {
                 <option value="@category.Id">@category.Name</option>
