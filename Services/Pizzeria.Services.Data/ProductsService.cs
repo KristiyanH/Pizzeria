@@ -89,5 +89,26 @@
             this.productsRepository.Update(product);
             await this.productsRepository.SaveChangesAsync();
         }
+
+        public ProductDetailsViewModel GetProduct(int id)
+        {
+            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException($"Product with id: {id} does not exist.");
+            }
+
+            var detailsModel = this.mapper.Map<ProductDetailsViewModel>(product);
+
+            var sizeName = this.sizesRepository.All().FirstOrDefault(x => x.Id == detailsModel.SizeId).Name;
+
+            if (sizeName != null)
+            {
+                detailsModel.SizeName = sizeName;
+            }
+
+            return detailsModel;
+        }
     }
 }

@@ -42,6 +42,7 @@
                 cfg.CreateMap<Category, ProductCategoryViewModel>();
                 cfg.CreateMap<Size, ProductSizeViewModel>();
                 cfg.CreateMap<Product, EditProductViewModel>();
+                cfg.CreateMap<Product, ProductDetailsViewModel>();
             });
 
             services.AddDbContext<ApplicationDbContext>(

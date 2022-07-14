@@ -1,0 +1,20 @@
+﻿@model ProductDetailsViewModel
+
+<div class="card-group">
+    <div class="card" style="margin:60px">
+        <img src="@Model.ImageUrl" alt="img" width="300" height="300">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">Ingredients: @Model.Description</p>
+            <p class="card-text">Weight: @Model.Weight g</p>
+            @if(Model.SizeName != null)
+            {
+                <p class="card-text">Size: @Model.SizeName</p>
+            }
+            <p class="card-text">Price: @Model.Price.ToString("f2")$</p>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Details</a>
+            <a asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+        </div>
+    </div>
+</div>

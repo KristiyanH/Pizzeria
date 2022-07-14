@@ -72,5 +72,10 @@
 
             return this.RedirectToAction("All");
         }
+
+        public IActionResult Details(int id)
+        {
+            return this.View(this.productService.GetProduct(id));
+        }
     }
 }

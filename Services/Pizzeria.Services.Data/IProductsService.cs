@@ -1,9 +1,8 @@
 ﻿namespace Pizzeria.Services.Data
 {
+    using Pizzeria.Web.ViewModels.Products;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Pizzeria.Web.ViewModels.Products;
 
     public interface IProductsService
     {
@@ -20,5 +19,7 @@
         public EditProductViewModel EditProductGet(int id);
 
         public Task EditProductPost(EditProductViewModel model);
+
+        public ProductDetailsViewModel GetProduct(int id);
     }
 }
