@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -59,6 +60,34 @@
         {
             var sizes = this.sizesRepository.All().ToList();
             return this.mapper.Map<IEnumerable<ProductSizeViewModel>>(sizes);
+        }
+
+        public EditProductViewModel EditProductGet(int id)
+        {
+            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException($"Product with id: {id} does not exist.");
+            }
+
+            var editModel = this.mapper.Map<EditProductViewModel>(product);
+
+            return editModel;
+        }
+
+        public async Task EditProductPost(EditProductViewModel model)
+        {
+            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == model.Id);
+
+            product.Name = model.Name;
+            product.ImageUrl = model.ImageUrl;
+            product.Description = model.Description;
+            product.Price = model.Price;
+            product.SizeId = model.SizeId;
+
+            this.productsRepository.Update(product);
+            await this.productsRepository.SaveChangesAsync();
         }
     }
 }

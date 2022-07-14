@@ -16,5 +16,9 @@
         public IEnumerable<ProductCategoryViewModel> GetProductCategories();
 
         public IEnumerable<ProductSizeViewModel> GetProductSizes();
+
+        public EditProductViewModel EditProductGet(int id);
+
+        public Task EditProductPost(EditProductViewModel model);
     }
 }

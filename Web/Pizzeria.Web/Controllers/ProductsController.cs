@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,26 @@
         public async Task<IActionResult> Remove(int id)
         {
             await this.productService.Remove(id);
+
+            return this.RedirectToAction("All");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var model = this.productService.EditProductGet(id);
+            model.Sizes = this.productService.GetProductSizes();
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProductViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await this.productService.EditProductPost(model);
 
             return this.RedirectToAction("All");
         }
