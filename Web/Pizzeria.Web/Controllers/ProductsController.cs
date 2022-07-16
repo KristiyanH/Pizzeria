@@ -40,27 +40,27 @@
             return this.RedirectToAction("All");
         }
 
-        public IActionResult All([FromQuery] AllProductsQueryModel model)
+        public IActionResult All([FromQuery] AllProductsQueryModel query)
         {
             var productsQuery = this.productService.All().AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(model.Category))
+            if (!string.IsNullOrWhiteSpace(query.Category))
             {
-                productsQuery = productsQuery.Where(x => x.Category.Name == model.Category);
+                productsQuery = productsQuery.Where(x => x.Category.Name == query.Category);
             }
 
-            if (!string.IsNullOrWhiteSpace(model.Size))
+            if (!string.IsNullOrWhiteSpace(query.Size))
             {
-                productsQuery = productsQuery.Where(x => x.Size.Name == model.Size);
+                productsQuery = productsQuery.Where(x => x.Size.Name == query.Size);
             }
 
-            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
-                productsQuery = productsQuery.Where(x => x.Name.ToLower().Contains(model.SearchTerm.ToLower()) ||
-                x.Description.ToLower().Contains(model.SearchTerm.ToLower()));
+                productsQuery = productsQuery.Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                x.Description.ToLower().Contains(query.SearchTerm.ToLower()));
             }
 
-            productsQuery = model.Sorting switch
+            productsQuery = query.Sorting switch
             {
                 ProductSorting.Alphabetical => productsQuery.OrderBy(x => x.Name),
                 ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
@@ -68,12 +68,18 @@
                 _ => productsQuery.OrderBy(x => x),
             };
 
+            var products = productsQuery
+                .Skip((query.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
+                .Take(AllProductsQueryModel.ProductsPerPage)
+                .ToList();
+
             return this.View(new AllProductsQueryModel
             {
-                Products = productsQuery.ToList(),
-                SearchTerm = model.SearchTerm,
+                Products = products,
+                SearchTerm = query.SearchTerm,
                 Categories = this.productService.GetProductCategories(),
                 Sizes = this.productService.GetProductSizes(),
+                TotalProperties = this.productService.All().Count,
             });
         }
 

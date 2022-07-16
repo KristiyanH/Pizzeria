@@ -1,7 +1,8 @@
 ﻿namespace Pizzeria.Web.ViewModels.Products
 {
-    using Pizzeria.Data.Models;
     using System.ComponentModel.DataAnnotations;
+
+    using Pizzeria.Data.Models;
 
     public class AllProductsViewModel
     {

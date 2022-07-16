@@ -17,7 +17,7 @@
         </select>
     </div>
 
-     <div class="col-md-4">
+    <div class="col-md-4">
         <label asp-for="Size" class="form-label">Select Category</label>
         <select asp-for="Size" class="form-select">
             <option value="">All</option>
@@ -28,7 +28,7 @@
         </select>
     </div>
 
-     <div class="col-md-4">
+    <div class="col-md-4">
         <label asp-for="Sorting" class="form-label">Select Category</label>
         <select asp-for="Sorting" class="form-select">
             <option value="0">Alphabetical Order</option>
@@ -52,4 +52,27 @@
             </div>
         </div>
     }
+</div>
+
+@{
+    var totalPages = Math.Ceiling((double)Model.TotalProperties / AllProductsQueryModel.ProductsPerPage);
+}
+
+<div class="row-md-4">
+    <div class="text-center">
+        <a class="btn btn-primary" asp-controller="Products"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage - 1 <= 0 ? Model.CurrentPage : Model.CurrentPage - 1)">
+            &lt;
+        </a>
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <a asp-controller="Products" asp-action="All" asp-route-currentPage="@i">@i</a>
+        }
+        <a class="btn btn-primary" asp-controller="Products"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1 > totalPages ? Model.CurrentPage : Model.CurrentPage + 1)">
+            &gt;
+        </a>
+    </div>
 </div>
