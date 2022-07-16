@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Web.ViewModels.Products
 {
+    using Pizzeria.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
     public class AllProductsViewModel
@@ -22,5 +23,13 @@
 
         [Required]
         public decimal Price { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
+        public int SizeId { get; set; }
+
+        public Size Size { get; set; }
     }
 }

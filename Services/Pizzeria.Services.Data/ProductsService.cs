@@ -33,6 +33,12 @@
         {
             var products = this.mapper.Map<List<AllProductsViewModel>>(this.productsRepository.All().ToList());
 
+            foreach (var product in products)
+            {
+                product.Category = this.categoriesRepository.All().FirstOrDefault(x => x.Id == product.CategoryId);
+                product.Size = this.sizesRepository.All().FirstOrDefault(x => x.Id == product.SizeId);
+            }
+
             return products;
         }
 

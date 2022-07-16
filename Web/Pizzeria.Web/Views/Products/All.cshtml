@@ -1,7 +1,45 @@
-﻿@model List<AllProductsViewModel>
+﻿@model AllProductsQueryModel
+
+<form method="get">
+    <div class="col-md-3">
+        <label asp-for="SearchTerm" class="control-label"></label>
+        <input asp-for="SearchTerm" class="form-control" />
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Category" class="form-label">Select Category</label>
+        <select asp-for="Category" class="form-select">
+            <option value="">All</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Name">@category.Name</option>
+            }
+        </select>
+    </div>
+
+     <div class="col-md-4">
+        <label asp-for="Size" class="form-label">Select Category</label>
+        <select asp-for="Size" class="form-select">
+            <option value="">All</option>
+            @foreach (var size in Model.Sizes)
+            {
+                <option value="@size.Name">@size.Name</option>
+            }
+        </select>
+    </div>
+
+     <div class="col-md-4">
+        <label asp-for="Sorting" class="form-label">Select Category</label>
+        <select asp-for="Sorting" class="form-select">
+            <option value="0">Alphabetical Order</option>
+            <option value="1">Price Ascending</option>
+            <option value="2">Price Descending</option>
+        </select>
+    </div>
+</form>
 
 <div class="card-group">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Products)
     {
         <div class="card" style="margin:60px">
             <img src="@item.ImageUrl" class="card-img-top" alt="img">

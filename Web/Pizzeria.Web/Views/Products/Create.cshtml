@@ -41,6 +41,7 @@
                 <option value="@size.Id">@size.Name</option>
             }
         </select>
+         <span asp-validation-for="SizeId" class="text-danger"></span>
     </div>
     <div class="col-md-4">
         <label asp-for="CategoryId" class="form-label">Select Category</label>
@@ -50,6 +51,7 @@
                 <option value="@category.Id">@category.Name</option>
             }
         </select>
+         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Create</button>
