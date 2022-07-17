@@ -19,11 +19,13 @@
     using Pizzeria.Data.Seeding;
     using Pizzeria.Services.Data.Categories;
     using Pizzeria.Services.Data.Products;
+    using Pizzeria.Services.Data.Sizes;
     using Pizzeria.Services.Mapping;
     using Pizzeria.Services.Messaging;
     using Pizzeria.Web.ViewModels;
     using Pizzeria.Web.ViewModels.Categories;
     using Pizzeria.Web.ViewModels.Products;
+    using Pizzeria.Web.ViewModels.Sizes;
 
     public class Program
     {
@@ -46,8 +48,8 @@
                 cfg.CreateMap<Size, ProductSizeViewModel>();
                 cfg.CreateMap<Product, EditProductViewModel>();
                 cfg.CreateMap<Product, ProductDetailsViewModel>();
-                cfg.CreateMap<Category, CategoryViewModel>();
-                cfg.CreateMap<CategoryViewModel, Category>();
+                cfg.CreateMap<Category, CategoryViewModel>().ReverseMap();
+                cfg.CreateMap<Size, SizeViewModel>().ReverseMap();
             });
 
             services.AddDbContext<ApplicationDbContext>(
@@ -82,6 +84,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ISizesService, SizesService>();
         }
 
         private static void Configure(WebApplication app)

@@ -1,0 +1,15 @@
+﻿@model List<SizeViewModel>
+
+@{
+    ViewData["Title"] = "All Sizes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@foreach (var size in Model)
+{
+    <h5 class="card-title">@size.Id</h5>
+    <p class="card-text">@size.Name</p>
+    <a asp-action="Edit" asp-route-id="@size.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Remove" asp-route-id="@size.Id" class="btn btn-danger">Remove</a>
+}

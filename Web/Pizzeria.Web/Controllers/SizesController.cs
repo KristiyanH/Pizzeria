@@ -4,21 +4,21 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Pizzeria.Services.Data.Categories;
-    using Pizzeria.Web.ViewModels.Categories;
+    using Pizzeria.Services.Data.Sizes;
+    using Pizzeria.Web.ViewModels.Sizes;
 
-    public class CategoriesController : BaseController
+    public class SizesController : BaseController
     {
-        private readonly ICategoriesService categoriesService;
+        private readonly ISizesService sizesService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public SizesController(ISizesService sizesService)
         {
-            this.categoriesService = categoriesService;
+            this.sizesService = sizesService;
         }
 
         public IActionResult All()
         {
-            return this.View(this.categoriesService.All());
+            return this.View(this.sizesService.All());
         }
 
         public IActionResult Create()
@@ -27,14 +27,14 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryViewModel model)
+        public async Task<IActionResult> Create(SizeViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.categoriesService.CreateAsync(model);
+            await this.sizesService.CreateAsync(model);
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -42,7 +42,7 @@
         {
             try
             {
-                await this.categoriesService.Remove(id);
+                await this.sizesService.Remove(id);
                 return this.RedirectToAction("Index", "Home");
             }
             catch (ArgumentNullException)
@@ -55,7 +55,7 @@
         {
             try
             {
-                return this.View(this.categoriesService.EditGet(id));
+                return this.View(this.sizesService.EditGet(id));
             }
             catch (ArgumentNullException)
             {
@@ -64,11 +64,11 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CategoryViewModel model)
+        public async Task<IActionResult> Edit(SizeViewModel model)
         {
             try
             {
-                await this.categoriesService.EditPost(model);
+                await this.sizesService.EditPost(model);
                 return this.RedirectToAction("Index", "Home");
             }
             catch (ArgumentNullException)
