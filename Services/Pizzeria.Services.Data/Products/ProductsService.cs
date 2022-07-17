@@ -1,4 +1,4 @@
-﻿namespace Pizzeria.Services.Data
+﻿namespace Pizzeria.Services.Data.Products
 {
     using System;
     using System.Collections.Generic;
@@ -32,13 +32,13 @@
         public List<AllProductsViewModel> All()
         {
             var products =
-                this.mapper
-                .Map<List<AllProductsViewModel>>(this.productsRepository.All().ToList());
+                mapper
+                .Map<List<AllProductsViewModel>>(productsRepository.All().ToList());
 
             foreach (var product in products)
             {
                 product.Category =
-                    this.categoriesRepository
+                    categoriesRepository
                     .All()
                     .FirstOrDefault(x => x.Id == product.CategoryId);
 
@@ -48,7 +48,7 @@
                 }
 
                 product.Size =
-                    this.sizesRepository
+                    sizesRepository
                     .All()
                     .FirstOrDefault(x => x.Id == product.SizeId);
             }
@@ -58,15 +58,15 @@
 
         public async Task CreateAsync(CreateProductViewModel model)
         {
-            var product = this.mapper.Map<Product>(model);
-            await this.productsRepository.AddAsync(product);
-            await this.productsRepository.SaveChangesAsync();
+            var product = mapper.Map<Product>(model);
+            await productsRepository.AddAsync(product);
+            await productsRepository.SaveChangesAsync();
         }
 
         public async Task Remove(int id)
         {
             var product =
-                this.productsRepository
+                productsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == id);
 
@@ -75,34 +75,34 @@
                 throw new ArgumentNullException($"Product with id: {id} does not exist.");
             }
 
-            this.productsRepository.Delete(product);
-            await this.productsRepository.SaveChangesAsync();
+            productsRepository.Delete(product);
+            await productsRepository.SaveChangesAsync();
         }
 
         public IEnumerable<ProductCategoryViewModel> GetProductCategories()
         {
             var categories =
-                this.categoriesRepository
+                categoriesRepository
                 .All()
                 .ToList();
 
-            return this.mapper.Map<IEnumerable<ProductCategoryViewModel>>(categories);
+            return mapper.Map<IEnumerable<ProductCategoryViewModel>>(categories);
         }
 
         public IEnumerable<ProductSizeViewModel> GetProductSizes()
         {
             var sizes =
-                this.sizesRepository
+                sizesRepository
                 .All()
                 .ToList();
 
-            return this.mapper.Map<IEnumerable<ProductSizeViewModel>>(sizes);
+            return mapper.Map<IEnumerable<ProductSizeViewModel>>(sizes);
         }
 
         public EditProductViewModel EditProductGet(int id)
         {
             var product =
-                this.productsRepository
+                productsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == id);
 
@@ -111,7 +111,7 @@
                 throw new ArgumentNullException($"Product with id: {id} does not exist.");
             }
 
-            var editModel = this.mapper.Map<EditProductViewModel>(product);
+            var editModel = mapper.Map<EditProductViewModel>(product);
 
             return editModel;
         }
@@ -119,7 +119,7 @@
         public async Task EditProductPost(EditProductViewModel model)
         {
             var product =
-                this.productsRepository
+                productsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == model.Id);
 
@@ -134,14 +134,14 @@
             product.Price = model.Price;
             product.SizeId = model.SizeId;
 
-            this.productsRepository.Update(product);
-            await this.productsRepository.SaveChangesAsync();
+            productsRepository.Update(product);
+            await productsRepository.SaveChangesAsync();
         }
 
         public ProductDetailsViewModel GetProduct(int id)
         {
             var product =
-                this.productsRepository
+                productsRepository
                 .All()
                 .FirstOrDefault(x => x.Id == id);
 
@@ -150,10 +150,10 @@
                 throw new ArgumentNullException($"Product with id: {id} does not exist.");
             }
 
-            var detailsModel = this.mapper.Map<ProductDetailsViewModel>(product);
+            var detailsModel = mapper.Map<ProductDetailsViewModel>(product);
 
             var sizeName =
-                this.sizesRepository
+                sizesRepository
                 .All()
                 .FirstOrDefault(x => x.Id == detailsModel.SizeId).Name;
 

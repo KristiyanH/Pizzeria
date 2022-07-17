@@ -17,7 +17,8 @@
     using Pizzeria.Data.Models;
     using Pizzeria.Data.Repositories;
     using Pizzeria.Data.Seeding;
-    using Pizzeria.Services.Data;
+    using Pizzeria.Services.Data.Categories;
+    using Pizzeria.Services.Data.Products;
     using Pizzeria.Services.Mapping;
     using Pizzeria.Services.Messaging;
     using Pizzeria.Web.ViewModels;

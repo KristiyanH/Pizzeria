@@ -1,9 +1,10 @@
 ﻿namespace Pizzeria.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Pizzeria.Services.Data;
+    using Pizzeria.Services.Data.Categories;
     using Pizzeria.Web.ViewModels.Categories;
 
     public class CategoriesController : BaseController
@@ -39,20 +40,41 @@
 
         public IActionResult Remove(int id)
         {
-            this.categoriesService.Remove(id);
-            return this.RedirectToAction("Index", "Home");
+            try
+            {
+                this.categoriesService.Remove(id);
+                return this.RedirectToAction("Index", "Home");
+            }
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
 
         public IActionResult Edit(int id)
         {
-            return this.View(this.categoriesService.EditGet(id));
+            try
+            {
+                return this.View(this.categoriesService.EditGet(id));
+            }
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewModel model)
         {
-            await this.categoriesService.EditPost(model);
-            return this.RedirectToAction("Index", "Home");
+            try
+            {
+                await this.categoriesService.EditPost(model);
+                return this.RedirectToAction("Index", "Home");
+            }
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
     }
 }

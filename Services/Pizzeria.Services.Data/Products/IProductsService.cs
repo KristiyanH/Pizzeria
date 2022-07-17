@@ -1,4 +1,4 @@
-﻿namespace Pizzeria.Services.Data
+﻿namespace Pizzeria.Services.Data.Products
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

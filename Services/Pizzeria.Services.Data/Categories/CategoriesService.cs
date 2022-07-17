@@ -1,4 +1,4 @@
-﻿namespace Pizzeria.Services.Data
+﻿namespace Pizzeria.Services.Data.Categories
 {
     using System;
     using System.Collections.Generic;
@@ -30,9 +30,7 @@
                 .All()
                 .ToList();
 
-            var categoriesModel = this.mapper.Map<List<CategoryViewModel>>(categories);
-
-            return categoriesModel;
+            return this.mapper.Map<List<CategoryViewModel>>(categories);
         }
 
         public async Task CreateAsync(CategoryViewModel model)

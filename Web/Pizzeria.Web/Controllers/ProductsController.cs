@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Pizzeria.Services.Data;
+    using Pizzeria.Services.Data.Products;
     using Pizzeria.Web.ViewModels.Products;
 
     public class ProductsController : BaseController
