@@ -1,5 +1,6 @@
 ﻿namespace Pizzeria.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -42,72 +43,100 @@
 
         public IActionResult All([FromQuery] AllProductsQueryModel query)
         {
-            var productsQuery = this.productService.All().AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(query.Category))
+            try
             {
-                productsQuery = productsQuery.Where(x => x.Category.Name == query.Category);
+                var productsQuery = this.productService.All().AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(query.Category))
+                {
+                    productsQuery = productsQuery.Where(x => x.Category.Name == query.Category);
+                }
+
+                if (!string.IsNullOrWhiteSpace(query.Size))
+                {
+                    productsQuery = productsQuery.Where(x => x.Size.Name == query.Size);
+                }
+
+                if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+                {
+                    productsQuery = productsQuery.Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                    x.Description.ToLower().Contains(query.SearchTerm.ToLower()));
+                }
+
+                productsQuery = query.Sorting switch
+                {
+                    ProductSorting.Alphabetical => productsQuery.OrderBy(x => x.Name),
+                    ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
+                    ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
+                    _ => productsQuery.OrderBy(x => x),
+                };
+
+                var products = productsQuery
+                    .Skip((query.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
+                    .Take(AllProductsQueryModel.ProductsPerPage)
+                    .ToList();
+
+                return this.View(new AllProductsQueryModel
+                {
+                    Products = products,
+                    SearchTerm = query.SearchTerm,
+                    Categories = this.productService.GetProductCategories(),
+                    Sizes = this.productService.GetProductSizes(),
+                    TotalProperties = this.productService.All().Count,
+                });
             }
-
-            if (!string.IsNullOrWhiteSpace(query.Size))
+            catch (ArgumentNullException)
             {
-                productsQuery = productsQuery.Where(x => x.Size.Name == query.Size);
+                return this.RedirectToAction("Home", "Error");
             }
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                productsQuery = productsQuery.Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                x.Description.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            productsQuery = query.Sorting switch
-            {
-                ProductSorting.Alphabetical => productsQuery.OrderBy(x => x.Name),
-                ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
-                ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
-                _ => productsQuery.OrderBy(x => x),
-            };
-
-            var products = productsQuery
-                .Skip((query.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
-                .Take(AllProductsQueryModel.ProductsPerPage)
-                .ToList();
-
-            return this.View(new AllProductsQueryModel
-            {
-                Products = products,
-                SearchTerm = query.SearchTerm,
-                Categories = this.productService.GetProductCategories(),
-                Sizes = this.productService.GetProductSizes(),
-                TotalProperties = this.productService.All().Count,
-            });
         }
 
         public async Task<IActionResult> Remove(int id)
         {
-            await this.productService.Remove(id);
+            try
+            {
+                await this.productService.Remove(id);
 
-            return this.RedirectToAction("All");
+                return this.RedirectToAction("All");
+            }
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
 
         public IActionResult Edit(int id)
         {
-            var model = this.productService.EditProductGet(id);
-            model.Sizes = this.productService.GetProductSizes();
-            return this.View(model);
+            try
+            {
+                var model = this.productService.EditProductGet(id);
+                model.Sizes = this.productService.GetProductSizes();
+                return this.View(model);
+            }
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            try
             {
-                return this.View(model);
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(model);
+                }
+
+                await this.productService.EditProductPost(model);
+
+                return this.RedirectToAction("All");
             }
-
-            await this.productService.EditProductPost(model);
-
-            return this.RedirectToAction("All");
+            catch (ArgumentNullException)
+            {
+                return this.RedirectToAction("Home", "Error");
+            }
         }
 
         public IActionResult Details(int id)

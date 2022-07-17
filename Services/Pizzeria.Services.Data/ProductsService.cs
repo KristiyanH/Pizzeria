@@ -31,12 +31,26 @@
 
         public List<AllProductsViewModel> All()
         {
-            var products = this.mapper.Map<List<AllProductsViewModel>>(this.productsRepository.All().ToList());
+            var products =
+                this.mapper
+                .Map<List<AllProductsViewModel>>(this.productsRepository.All().ToList());
 
             foreach (var product in products)
             {
-                product.Category = this.categoriesRepository.All().FirstOrDefault(x => x.Id == product.CategoryId);
-                product.Size = this.sizesRepository.All().FirstOrDefault(x => x.Id == product.SizeId);
+                product.Category =
+                    this.categoriesRepository
+                    .All()
+                    .FirstOrDefault(x => x.Id == product.CategoryId);
+
+                if (product.Category == null)
+                {
+                    throw new ArgumentNullException($"Invalid Category for product with id: ${product.Id}");
+                }
+
+                product.Size =
+                    this.sizesRepository
+                    .All()
+                    .FirstOrDefault(x => x.Id == product.SizeId);
             }
 
             return products;
@@ -51,26 +65,46 @@
 
         public async Task Remove(int id)
         {
-            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+            var product =
+                this.productsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException($"Product with id: {id} does not exist.");
+            }
+
             this.productsRepository.Delete(product);
             await this.productsRepository.SaveChangesAsync();
         }
 
         public IEnumerable<ProductCategoryViewModel> GetProductCategories()
         {
-            var categories = this.categoriesRepository.All().ToList();
+            var categories =
+                this.categoriesRepository
+                .All()
+                .ToList();
+
             return this.mapper.Map<IEnumerable<ProductCategoryViewModel>>(categories);
         }
 
         public IEnumerable<ProductSizeViewModel> GetProductSizes()
         {
-            var sizes = this.sizesRepository.All().ToList();
+            var sizes =
+                this.sizesRepository
+                .All()
+                .ToList();
+
             return this.mapper.Map<IEnumerable<ProductSizeViewModel>>(sizes);
         }
 
         public EditProductViewModel EditProductGet(int id)
         {
-            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+            var product =
+                this.productsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == id);
 
             if (product == null)
             {
@@ -84,7 +118,15 @@
 
         public async Task EditProductPost(EditProductViewModel model)
         {
-            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == model.Id);
+            var product =
+                this.productsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == model.Id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException($"Product with id: {model.Id} does not exist.");
+            }
 
             product.Name = model.Name;
             product.ImageUrl = model.ImageUrl;
@@ -98,7 +140,10 @@
 
         public ProductDetailsViewModel GetProduct(int id)
         {
-            var product = this.productsRepository.All().FirstOrDefault(x => x.Id == id);
+            var product =
+                this.productsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == id);
 
             if (product == null)
             {
@@ -107,7 +152,10 @@
 
             var detailsModel = this.mapper.Map<ProductDetailsViewModel>(product);
 
-            var sizeName = this.sizesRepository.All().FirstOrDefault(x => x.Id == detailsModel.SizeId).Name;
+            var sizeName =
+                this.sizesRepository
+                .All()
+                .FirstOrDefault(x => x.Id == detailsModel.SizeId).Name;
 
             if (sizeName != null)
             {

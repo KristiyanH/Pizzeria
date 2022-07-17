@@ -1,8 +1,9 @@
 ﻿namespace Pizzeria.Services.Data
 {
-    using Pizzeria.Web.ViewModels.Products;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using Pizzeria.Web.ViewModels.Products;
 
     public interface IProductsService
     {

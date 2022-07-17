@@ -1,0 +1,15 @@
+﻿@model List<CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@foreach (var category in Model)
+{
+    <h5 class="card-title">@category.Id</h5>
+    <p class="card-text">@category.Name</p>
+    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Remove" asp-route-id="@category.Id" class="btn btn-danger">Remove</a>
+}

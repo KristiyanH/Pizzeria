@@ -21,6 +21,7 @@
     using Pizzeria.Services.Mapping;
     using Pizzeria.Services.Messaging;
     using Pizzeria.Web.ViewModels;
+    using Pizzeria.Web.ViewModels.Categories;
     using Pizzeria.Web.ViewModels.Products;
 
     public class Program
@@ -44,6 +45,8 @@
                 cfg.CreateMap<Size, ProductSizeViewModel>();
                 cfg.CreateMap<Product, EditProductViewModel>();
                 cfg.CreateMap<Product, ProductDetailsViewModel>();
+                cfg.CreateMap<Category, CategoryViewModel>();
+                cfg.CreateMap<CategoryViewModel, Category>();
             });
 
             services.AddDbContext<ApplicationDbContext>(
@@ -77,6 +80,7 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
         }
 
         private static void Configure(WebApplication app)
