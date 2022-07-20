@@ -81,8 +81,9 @@
                     Products = products,
                     SearchTerm = query.SearchTerm,
                     Categories = this.productService.GetProductCategories(),
+                    Category = query.Category,
                     Sizes = this.productService.GetProductSizes(),
-                    TotalProducts = this.productService.All().Count,
+                    TotalProducts = productsQuery.Count(),
                     CurrentPage = query.CurrentPage,
                 });
             }
