@@ -1,6 +1,7 @@
 ﻿namespace Pizzeria.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -68,13 +69,13 @@
                     ProductSorting.Alphabetical => productsQuery.OrderBy(x => x.Name),
                     ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
                     ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
-                    _ => productsQuery.OrderBy(x => x),
+                    _ => productsQuery.OrderBy(x => x.Id),
                 };
 
                 var products = productsQuery
-                    .Skip((query.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
-                    .Take(AllProductsQueryModel.ProductsPerPage)
-                    .ToList();
+                   .Skip((query.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
+                   .Take(AllProductsQueryModel.ProductsPerPage)
+                   .ToList();
 
                 return this.View(new AllProductsQueryModel
                 {

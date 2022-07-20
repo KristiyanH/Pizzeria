@@ -1,118 +1,227 @@
 ﻿@model AllProductsQueryModel
 
+<!DOCTYPE html>
+<html>
 
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="~/images/favicon.png" type="">
 
-<form method="get">
-    <div class="row">
+    <title> Menu </title>
 
-        <div class="form-group col-md-4">
-            <div class="form-group">
-                <label asp-for="Category" class="form-label">Select Category</label>
-                <select asp-for="Category" class="form-select">
-                    <option value="">All</option>
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="@category.Name">@category.Name</option>
-                    }
-                </select>
-            </div>
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css" />
+
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- nice select  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+    <!-- font awesome style -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="~/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body class="sub_page">
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="~/images/hero-bg.jpg" alt="">
         </div>
-
-        <div class="form-group col-md-4">
-            <div class="form-group">
-                <label asp-for="Category" class="form-label">Select Size</label>
-                <select asp-for="Category" class="form-select">
-                    <option value="">All</option>
-                    @foreach (var size in Model.Sizes)
-                    {
-                        <option value="@size.Name">@size.Name</option>
-                    }
-                </select>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <partial name="_TopNavPartial" />
             </div>
-        </div>
-
-        <div class="form-group col-md-4 mt-2">
-            <div class="form-group">
-                <label asp-for="SearchTerm"></label>
-                <input asp-for="SearchTerm" class="form-control" placeholder="Pizza, Doner, Sauce etc..">
-            </div>
-        </div>
-
-        <div class="form-group col-md-4 mt-3">
-            <div class="form-group">
-                <label asp-for="Sorting" class="form-label">Sort By</label>
-                <select asp-for="Sorting" class="form-select">
-                    <option value="0">Alphabetical Order</option>
-                    <option value="1">Price Ascending</option>
-                    <option value="2">Price Descending</option>
-                </select>
-            </div>
-        </div>
+        </header>
+        <!-- end header section -->
     </div>
-</form>
 
-<div class="card-group">
-    @foreach (var item in Model.Products)
-    {
-        <div class="card" style="margin:60px">
-            <img src="@item.ImageUrl" class="card-img-top" alt="img">
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
-                <p class="card-text">@item.Description</p>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Details</a>
-                <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger">Remove</a>
+    <!-- food section -->
+    <!-- search section start -->
+    <section class="food_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center mb-5">
+                <h2>
+                    Our Menu
+                </h2>
+            </div>
+
+            <form method="get">
+                <div class="row">
+
+                    <div class="form-group col-md-2">
+                        <div class="form-group">
+                            <input asp-for="SearchTerm" class="form-control" placeholder="Search by text">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="form-group">
+                            <select asp-for="Category" class="form-select">
+                                <option value="">Category</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Name">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="form-group">
+                            <select asp-for="Size" class="form-select">
+                                <option value="">Size</option>
+                                @foreach (var size in Model.Sizes)
+                                {
+                                    <option value="@size.Name">@size.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <div class="form-group">
+                            <select asp-for="Sorting" class="form-select">
+                                <option value="">Sort by</option>
+                                <option value="1">Alphabetical Order</option>
+                                <option value="2">Price Ascending</option>
+                                <option value="3">Price Descending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <!-- search section end -->
+
+            <div class="filters-content">
+                <div class="row grid">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col-sm-6 col-lg-4 all pizza mt-5">
+                            <div class="box">
+                                <div>
+                                    <div class="img-box">
+                                        <img src="@product.ImageUrl" class="card-img-top" alt="img">
+                                    </div>
+                                    <div class="detail-box">
+                                        <h5>
+                                            @product.Name
+                                        </h5>
+                                        <p>
+                                            @product.Description
+                                        </p>
+                                        <div class="options">
+                                            <h6>
+                                                @product.Price
+                                            </h6>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- pagination start -->
+            @{
+                var totalPages = Math.Ceiling((double)Model.TotalProducts / AllProductsQueryModel.ProductsPerPage);
+
+                var previousPage = Model.CurrentPage - 1;
+                if (previousPage < 1)
+                {
+                    previousPage = 1;
+                }
+
+                var nextPage = Model.CurrentPage + 1;
+                if (nextPage > totalPages)
+                {
+                    nextPage = (int)totalPages;
+                }
+
+            }
+
+            <div class="row-md-4 mt-5">
+                <div class="text-center">
+                    @if (totalPages > 1)
+                    {
+                        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" asp-controller="Products"
+                       asp-action="All"
+                       asp-route-currentPage="@previousPage"
+                       asp-route-searchTerm="@Model.SearchTerm"
+                       asp-route-category="@Model.Category"
+                       asp-route-size="@Model.Size"
+                       asp-route-sorting="@((int)Model.Sorting)">
+                            &lt;
+                        </a>
+                    }
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <a asp-controller="Products" asp-action="All" asp-route-currentPage="@i">@i</a>
+                    }
+                    @if (totalPages > 1)
+                    {
+                        <a class="btn btn-primary @(Model.CurrentPage == totalPages ? "disabled" : "")" asp-controller="Products"
+                       asp-action="All"
+                       asp-route-currentPage="@nextPage"
+                       asp-route-searchTerm="@Model.SearchTerm"
+                       asp-route-category="@Model.Category"
+                       asp-route-size="@Model.Size"
+                       asp-route-sorting="@((int)Model.Sorting)">
+                            &gt;
+                        </a>
+                    }
+                </div>
+            </div>
+            <!-- pagination end -->
+
+            <div class="btn-box">
+                <a href="">
+                    View More
+                </a>
             </div>
         </div>
-    }
-</div>
+    </section>
 
-@{
-    var totalPages = Math.Ceiling((double)Model.TotalProducts / AllProductsQueryModel.ProductsPerPage);
+    <!-- end food section -->
+    <!-- footer section -->
+    <partial name="_FooterPartial" />
+    <!-- footer section -->
+    <!-- jQery -->
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <!-- bootstrap js -->
+    <script src="~/js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+    </script>
+    <!-- isotope js -->
+    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <!-- custom js -->
+    <script src="~/js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
+    <!-- End Google Map -->
 
-    var previousPage = Model.CurrentPage - 1;
-    if (previousPage < 1)
-    {
-        previousPage = 1;
-    }
+</body>
 
-    var nextPage = Model.CurrentPage + 1;
-    if (nextPage > totalPages)
-    {
-        nextPage = (int)totalPages;
-    }
-
-}
-
-<div class="row-md-4">
-    <div class="text-center">
-        @if (totalPages > 1)
-        {
-            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" asp-controller="Products"
-           asp-action="All"
-           asp-route-currentPage="@previousPage"
-           asp-route-searchTerm="@Model.SearchTerm"
-           asp-route-category="@Model.Category"
-           asp-route-size="@Model.Size"
-           asp-route-sorting="@((int)Model.Sorting)">
-                &lt;
-            </a>
-        }
-        @for (int i = 1; i <= totalPages; i++)
-        {
-            <a asp-controller="Products" asp-action="All" asp-route-currentPage="@i">@i</a>
-        }
-        @if (totalPages > 1)
-        {
-            <a class="btn btn-primary @(Model.CurrentPage == totalPages ? "disabled" : "")" asp-controller="Products"
-           asp-action="All"
-           asp-route-currentPage="@nextPage"
-           asp-route-searchTerm="@Model.SearchTerm"
-           asp-route-category="@Model.Category"
-           asp-route-size="@Model.Size"
-           asp-route-sorting="@((int)Model.Sorting)">
-                &gt;
-            </a>
-        }
-    </div>
-</div>
+</html>

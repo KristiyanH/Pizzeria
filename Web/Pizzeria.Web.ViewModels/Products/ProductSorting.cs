@@ -2,8 +2,8 @@
 {
     public enum ProductSorting
     {
-        Alphabetical = 0,
-        PriceAscending = 1,
-        PriceDescending = 2,
+        Alphabetical = 1,
+        PriceAscending = 2,
+        PriceDescending = 3,
     }
 }
