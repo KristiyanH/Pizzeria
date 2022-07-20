@@ -68,23 +68,36 @@
 </div>
 
 @{
-    var totalPages = Math.Ceiling((double)Model.TotalProperties / AllProductsQueryModel.ProductsPerPage);
+    var totalPages = Math.Ceiling((double)Model.TotalProducts / AllProductsQueryModel.ProductsPerPage);
+
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var nextPage = Model.CurrentPage + 1;
+    if (nextPage > totalPages)
+    {
+        nextPage = (int)totalPages;
+    }
+
 }
 
 <div class="row-md-4">
     <div class="text-center">
-        <a class="btn btn-primary" asp-controller="Products"
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" asp-controller="Products"
            asp-action="All"
-           asp-route-currentPage="@(Model.CurrentPage - 1 <= 0 ? Model.CurrentPage : Model.CurrentPage - 1)">
+           asp-route-currentPage="@previousPage">
             &lt;
         </a>
         @for (int i = 1; i <= totalPages; i++)
         {
             <a asp-controller="Products" asp-action="All" asp-route-currentPage="@i">@i</a>
         }
-        <a class="btn btn-primary" asp-controller="Products"
+        <a class="btn btn-primary @(Model.CurrentPage == totalPages ? "disabled" : "")" asp-controller="Products"
            asp-action="All"
-           asp-route-currentPage="@(Model.CurrentPage + 1 > totalPages ? Model.CurrentPage : Model.CurrentPage + 1)">
+           asp-route-currentPage="@nextPage">
             &gt;
         </a>
     </div>
